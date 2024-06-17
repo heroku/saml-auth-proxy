@@ -66,6 +66,8 @@ func Start(ctx context.Context, logger *zap.Logger, cfg *Config) error {
 		return fmt.Errorf("failed to initialize SP: %w", err)
 	}
 
+	middleware.ServiceProvider.AcsURL = *samlOpts.URL.ResolveReference(&url.URL{Path: "auth/qk/callback"})
+
 	switch cfg.NameIdFormat {
 	case "unspecified":
 		middleware.ServiceProvider.AuthnNameIDFormat = saml.UnspecifiedNameIDFormat
